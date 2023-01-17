@@ -1,3 +1,10 @@
+##### Table of Contents
+
+[Getting Started](#getting-started) |
+[Python Version Management](#python-version-management) |
+[Package Management](#package-management) |
+[Pre-commit Hooks](#pre-commit-hooks)
+
 # python-service-template
 
 A standard template for creating Python projects.
@@ -59,3 +66,7 @@ poetry env info
 ```bash
 poetry shell # creates a virtual env named .venv and activates it
 ```
+
+# Pre-commit Hooks
+
+We are using pre-commit library to manage our pre-commit hooks. This library allows us to easily manage and configure our pre-commit hooks. It also allows us to easily share our pre-commit hooks across projects. The hooks are defined in the `.pre-commit-config.yaml` file and the hooks are run automatically when you commit your code.
