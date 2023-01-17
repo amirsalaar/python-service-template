@@ -1,0 +1,40 @@
+[tool.poetry]
+name = "python-service-template"
+version = "0.1.0"
+description = "A standard template for creating Python projects."
+authors = ["Amirsalar Sojoudi <amirsalaar@gmail.com>"]
+readme = "README.md"
+packages = [{include = "python_service_template"}]
+
+[tool.poetry.dependencies]
+python = "~3.9 || ~3.10"
+
+
+
+[tool.poetry.group.dev.dependencies]
+black = {extras = ["d"], version = "^22.12.0"}
+isort = "^5.11.4"
+pre-commit = "^2.21.0"
+pylint = "^2.15.10"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+py_version=39
+profile = "black"
+extend_skip = [".md", ".json", ".js", ".ts", ".tsx"]
+skip = [".gitignore", ".dockerignore"]
+skip_glob = [
+    "*/node_modules/*",
+    "*/.venv/*",
+    "*/venv/*",
+    "*/.mypy_cache/*",
+    "*/.pytest_cache/*",
+    "*/__pycache__/*"
+]
+
+[tool.black]
+target-version = ['py39']
+include = '\.pyi?$'
