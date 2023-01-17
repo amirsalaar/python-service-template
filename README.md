@@ -5,6 +5,10 @@ A standard template for creating Python projects.
 This template is intended to be used with the Python repositories. It provides a
 standard structure for Python projects, including a `pyproject.toml` file, a and some base configurations and base packages. We recommend using this template as a starting point for all Python projects.
 
+# Getting Started
+
+To get started to use this template for your project, you can simply click on __"Use this template"__ button on the GitHub UI and then select __"Create new repository"__. Then you new repository will be created based off of this template.
+
 # Python Version Management
 
 We use `pyenv` to manage Python versions. This is a tool that allows you to install and manage multiple versions of Python on your machine. It is similar to `nvm` for Node.js. and `rbenv` for Ruby.
