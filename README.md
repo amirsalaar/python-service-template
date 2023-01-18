@@ -70,3 +70,9 @@ poetry shell # creates a virtual env named .venv and activates it
 # Pre-commit Hooks
 
 We are using pre-commit library to manage our pre-commit hooks. This library allows us to easily manage and configure our pre-commit hooks. It also allows us to easily share our pre-commit hooks across projects. The hooks are defined in the `.pre-commit-config.yaml` file and the hooks are run automatically when you commit your code.
+
+## Install Pre-commit Hooks
+
+```bash
+pre-commit install
+```
