@@ -2,7 +2,18 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.1.0
     hooks:
+      - id: check-yaml
+        log_file: logs/pre-commit.log
+
+      - id: end-of-file-fixer
+        log_file: logs/pre-commit.log
+
       - id: trailing-whitespace
+        log_file: logs/pre-commit.log
+
+      - id: check-json
+        log_file: logs/pre-commit.log
+
   - repo: https://github.com/psf/black
     rev: 22.12.0
     hooks:
