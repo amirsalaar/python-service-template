@@ -1,6 +1,7 @@
 ##### Table of Contents
 
-[Getting Started](#getting-started) |
+[How To Use This Template Repository](#how-to-use-this-template-repository) |
+[Quick Start](#quick-start) |
 [Python Version Management](#python-version-management) |
 [Package Management](#package-management) |
 [Pre-commit Hooks](#pre-commit-hooks)
@@ -12,9 +13,25 @@ A standard template for creating Python projects.
 This template is intended to be used with the Python repositories. It provides a
 standard structure for Python projects, including a `pyproject.toml` file, a and some base configurations and base packages. We recommend using this template as a starting point for all Python projects.
 
-# Getting Started
+# How To Use This Template Repository
 
-To get started to use this template for your project, you can simply click on __"Use this template"__ button on the GitHub UI and then select __"Create new repository"__. Then you new repository will be created based off of this template.
+To get started to use this template for your project, you can simply click on __"Use this template"__ button on the GitHub UI and then select __"Create new repository"__.
+Then, follow the prompt to create a new repository off of this template.
+
+🚨 For any feature requests and bugs, please create an issue on GitHub repository of the template.
+
+# Quick Start
+
+After creating a new repository off of this template, you can follow the steps below to get started.
+
+1. If you prefer another Python version, `.python-version` file can be updated to reflect the preferred Python version.
+    Otherwise, you can run `pyenv local | xargs pyenv install` to install the recommended version mentioned in `.python-version`
+    (see [Python Version Management](#python-version-management) section for more information).
+2. Create and activate a virtual environment with `poetry shell` (see [Package Management](#package-management) section for more information).
+3. After creating and activating your virtual environment, you can install the dependencies with `poetry install`.
+4. Install the pre-commit hooks with `pre-commit install` (see [Pre-commit Hooks](#pre-commit-hooks) section for more information).
+5. Update the `README.md` file with your new project information.
+6. Update the `[tool.poetry]` section of `pyproject.toml` file with your new project information.
 
 # Python Version Management
 
@@ -69,7 +86,9 @@ poetry shell # creates a virtual env named .venv and activates it
 
 # Pre-commit Hooks
 
-We are using pre-commit library to manage our pre-commit hooks. This library allows us to easily manage and configure our pre-commit hooks. It also allows us to easily share our pre-commit hooks across projects. The hooks are defined in the `.pre-commit-config.yaml` file and the hooks are run automatically when you commit your code.
+We are using pre-commit library to manage our pre-commit hooks. This library allows us to easily manage and configure our pre-commit hooks.
+It also allows us to easily share our pre-commit hooks across projects.
+The hooks are defined in the `.pre-commit-config.yaml` file and the hooks are run automatically when you commit your code.
 
 ## Install Pre-commit Hooks
 
