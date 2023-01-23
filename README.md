@@ -47,20 +47,20 @@ We will also recommend using `poetry` to manage and initialized your virtual env
 
 As of now, we have not migrated our boxes and default projects to use Python versions greater than 3.9. So this project will use the latest version of Python 3.9.15 until we have migrated our boxes and default projects to use Python 3.10 or later versions.
 
-Assuming that you have `pyenv` installed, you can install the latest version of Python 3.9.15 by running the following command:
+Assuming that you have `pyenv` installed, you can install the latest version of Python recommended in `.python-version` file, by running the following command:
 
 ```bash
-pyenv install 3.9.15
+pyenv local | xargs pyenv install # reads the python version from .python-version file and pipe it to `pyenv install`
 ```
 
 ## `poetry` Configuration
 
-In order for `poetry` to create virtual environments within the project with your preferred python version add the following configuration to your poetry config file.
+`poetry` configuration file is stored at:
 
 - For macOS, this config file is stored at `~/Library/Preferences/pypoetry/config.toml`.
 - For Linux, this config file is stored at `~/.config/pypoetry/config.toml`.
 
-You can add the following configuration to your `config.toml` file:
+In order for `poetry` to create virtual environments within the project with your preferred Python version, add the following configuration to your poetry `config.toml` file:
 
 ```toml
 [virtualenvs]
@@ -68,20 +68,28 @@ in-project = true # creates the virtualenv in the project directory
 prefer-active-python = true # uses the active python version
 ```
 
-Now to check the information of your virtual environment created by `poetry`, run the following command:
+> For further information on the usage of `poetry` configuration, you can run `poetry config --help`.
+
+## Create A Virtual Environment With `poetry`
+
+- To create and activate `poetry` virtual environment, run:
 
 ```bash
-poetry env info
+poetry shell
 ```
 
-> For further information on the usage of `poetry` configuration, you can run `poetry config --help`.
+- Then, to install `poetry` packages in the virtual environment created by `poetry` from the last step, run:
+
+```bash
+poetry install
+```
 
 > If `poetry` got stuck at installation of a package, you may try running `poetry cache clear --all .`
 
-## Create a Virtual Environment With `poetry`
+- You can check out and verify the information of your virtual environment created by `poetry`, run the following command:
 
 ```bash
-poetry shell # creates a virtual env named .venv and activates it
+poetry env info
 ```
 
 # Pre-commit Hooks
