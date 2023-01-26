@@ -1,13 +1,14 @@
 FROM python:3.10-slim AS base
 
 COPY . /app
+
 WORKDIR /app
 
 # python dependencies
 RUN python3 -m pip install --upgrade pip \
     && pip3 install poetry --no-cache-dir
 
-ADD poetry.lock pyproject.toml /docs/
+ADD poetry.lock pyproject.toml
 
 # 1. Disable virtualenv creation with poetry
 # 2. Install poetry deps
