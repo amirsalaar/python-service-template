@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  main-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    container_name: main-service-container
+    restart: always
+    volumes:
+      - ./:/docs
+    ports:
+      - "6000:80"
+    command: [ "tail", "-f", "/dev/null" ]

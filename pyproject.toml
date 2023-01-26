@@ -4,7 +4,6 @@ version = "0.1.0"
 description = "A standard template for creating Python projects."
 authors = ["Amirsalar Sojoudi <amirsalaar@gmail.com>"]
 readme = "README.md"
-packages = [{include = "python_service_template"}]
 
 [tool.poetry.dependencies]
 python = "~3.9 || ~3.10"
