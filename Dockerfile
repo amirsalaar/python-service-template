@@ -8,7 +8,7 @@ WORKDIR /app
 RUN python3 -m pip install --upgrade pip \
     && pip3 install poetry --no-cache-dir
 
-ADD poetry.lock pyproject.toml
+ADD poetry.lock pyproject.toml /app/
 
 # 1. Disable virtualenv creation with poetry
 # 2. Install poetry deps
