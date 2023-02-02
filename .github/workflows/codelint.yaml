@@ -16,7 +16,7 @@ jobs:
       - name: Install and run black
         run: |
           files=$(git diff --diff-filter=d --name-only origin/$TARGET_COMMIT..HEAD | grep "\.py$" | grep -vE "config|examples|fabfile|manage.py|migrations|venv|build" | tr '\n' ' ' || true)
-          if [ -n "$files" ];then pip3 install black;else exit 0; fi
+          if [ -n "$files" ];then pip3 install poetry && poetry config virtualenvs.create false && poetry install --only black;else exit 0; fi
           black --check -v --config ${{ github.workspace }}/pyproject.toml $files
   isort-check:
     env:
@@ -28,5 +28,5 @@ jobs:
       - name: Install and run isort
         run: |
           files=$(git diff --diff-filter=d --name-only origin/$TARGET_COMMIT..HEAD | grep "\.py$" | grep -vE "config|examples|fabfile|manage.py|migrations|venv|build" | tr '\n' ' ' || true)
-          if [ -n "$files" ];then pip3 install isort;else exit 0; fi
+          if [ -n "$files" ];then pip3 install poetry && poetry config virtualenvs.create false && poetry install --only isort;else exit 0; fi
           isort -v --check --profile black --settings-path ${{ github.workspace }}/pyproject.toml --atomic $files
