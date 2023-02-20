@@ -13,6 +13,8 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-python@v1
+        with:
+          python-version: "3.9"
       - name: Install and run black
         run: |
           files=$(git diff --diff-filter=d --name-only origin/$TARGET_COMMIT..HEAD | grep "\.py$" | grep -vE "config|examples|fabfile|manage.py|migrations|venv|build" | tr '\n' ' ' || true)
@@ -25,6 +27,8 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-python@v1
+        with:
+          python-version: "3.9"
       - name: Install and run isort
         run: |
           files=$(git diff --diff-filter=d --name-only origin/$TARGET_COMMIT..HEAD | grep "\.py$" | grep -vE "config|examples|fabfile|manage.py|migrations|venv|build" | tr '\n' ' ' || true)
