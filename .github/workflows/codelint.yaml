@@ -1,6 +1,9 @@
 name: Code Validation
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
@@ -34,3 +37,29 @@ jobs:
           files=$(git diff --diff-filter=d --name-only origin/$TARGET_COMMIT..HEAD | grep "\.py$" | grep -vE "config|examples|fabfile|manage.py|migrations|venv|build" | tr '\n' ' ' || true)
           if [ -n "$files" ];then pip3 install poetry && poetry config virtualenvs.create false && poetry install --only isort;else exit 0; fi
           isort -v --check --profile black --settings-path ${{ github.workspace }}/pyproject.toml --atomic $files
+  pylint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+      - name: Install poetry and pylint and run pylint
+        run: |
+          changed_python_files=$(git diff --diff-filter=d --name-only origin/$TARGET_COMMIT..HEAD | grep "\.py$" | grep -vE "config|examples|fabfile|manage.py|migrations|venv|build" | tr '\n' ' ' || true)
+          if [ -n "$changed_python_files" ];then pip3 install poetry && poetry config virtualenvs.create false && poetry install --only pylint;else exit 0; fi
+          poetry run pylint --count .
+  mypy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+      - name: Install poetry and mypy and run mypy
+        run: |
+          changed_python_files=$(git diff --diff-filter=d --name-only origin/$TARGET_COMMIT..HEAD | grep "\.py$" | grep -vE "config|examples|fabfile|manage.py|migrations|venv|build" | tr '\n' ' ' || true)
+          if [ -n "$changed_python_files" ];then pip3 install poetry && poetry config virtualenvs.create false && poetry install --only mypy;else exit 0; fi
+          poetry run mypy .
