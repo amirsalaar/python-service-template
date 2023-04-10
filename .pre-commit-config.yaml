@@ -14,27 +14,19 @@ repos:
       - id: check-json
         log_file: logs/pre-commit.log
 
-  - repo: https://github.com/psf/black
-    rev: 22.12.0
-    hooks:
-      - id: black
-        args: [--config=pyproject.toml]
+      - id: check-ast
+      - id: check-toml
 
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: "v0.991"
+  - repo: https://github.com/asottile/add-trailing-comma
+    rev: v2.1.0
     hooks:
-      - id: mypy
-
-  - repo: https://github.com/timothycrosley/isort
-    rev: 4.3.21
-    hooks:
-      - id: isort
+      - id: add-trailing-comma
 
   - repo: local
     hooks:
       - id: pylint
         name: pylint
-        entry: pylint
+        entry: poetry run pylint
         language: system
         types: [python]
         args: [
@@ -42,3 +34,22 @@ repos:
             "-sn", # Don't display the score
             "--rcfile=.pylintrc", # Link to your config file
           ]
+      - id: black
+        name: black
+        entry: poetry run black
+        language: system
+        types: [python]
+        args: ["--check", --config=pyproject.toml]
+
+      - id: isort
+        name: isort
+        entry: poetry run isort
+        language: system
+        types: [python]
+
+      - id: mypy
+        name: Validate types with MyPy
+        entry: poetry run mypy --config-file pyproject.toml .
+        language: system
+        types: [python]
+        pass_filenames: false
