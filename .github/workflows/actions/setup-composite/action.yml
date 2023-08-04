@@ -1,0 +1,28 @@
+name: Build Project
+description: "Shared Steps Between Workflows"
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        # python-version-file: ".python-version"
+        python-version-file: "pyproject.toml"
+    #----------------------------------------------
+    #           install & configure poetry
+    #----------------------------------------------
+    - name: Install and configure Poetry
+      uses: snok/install-poetry@v1
+      env:
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+        installer-parallel: true
+    #----------------------------------------------
+    #       load cached venv if cache exists
+    #----------------------------------------------
+    - name: Load cached venv
+      id: cached-poetry-dependencies
+      uses: actions/cache@v3
+      with:
+        path: .venv
+        key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}

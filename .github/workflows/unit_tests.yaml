@@ -13,13 +13,10 @@ jobs:
   pytest:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: "3.9"
+      - uses: actions/checkout@v3
+      - uses: ./.github/workflows/actions/install-composite
       - name: Run pytest
         run: |
           changed_python_files=$(git diff --diff-filter=d --name-only origin/$TARGET_COMMIT..HEAD | grep "\.py$" | grep -vE "config|examples|fabfile|manage.py|migrations|venv|build" | tr '\n' ' ' || true)
-          if [ -n "$changed_python_files" ];then pip3 install poetry && poetry config virtualenvs.create false && poetry install;else exit 0; fi
+          if [ -n "$changed_python_files" ];then pip3 install poetry && poetry config virtualenvs.create false && poetry install --no-interaction;else exit 0; fi
           poetry run pytest -vv --cov="src" .

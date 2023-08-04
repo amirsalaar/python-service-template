@@ -1,0 +1,18 @@
+name: Install Project and Dependencies
+description: "Shared Steps Between Workflows"
+runs:
+  using: "composite"
+  steps:
+    #----------------------------------------------
+    # install dependencies if cache does not exist
+    #----------------------------------------------
+    - name: Install dependencies
+      if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+      run: poetry install --no-interaction --no-root
+      shell: bash
+    #----------------------------------------------
+    # install your root project, if required
+    #----------------------------------------------
+    - name: Install project
+      run: poetry install --no-interaction
+      shell: bash
