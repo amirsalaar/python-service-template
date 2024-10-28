@@ -1,16 +1,13 @@
 {
-  "[python]": {
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": true
+    "[python]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        },
+        "editor.defaultFormatter": "ms-python.black-formatter"
     },
-    "editor.defaultFormatter": "ms-python.black-formatter"
-  },
-  "black-formatter.args": ["--config", "pyproject.toml"],
-  "python.formatting.provider": "none",
-  "python.linting.pylintEnabled": true,
-  "python.linting.enabled": true,
-  "python.testing.pytestEnabled": true,
-  "pythonTestExplorer.testFramework": "pytest",
-  "isort.args": ["--profile", "black"]
+    "black-formatter.args": ["--config", "pyproject.toml"],
+    "python.testing.pytestEnabled": true,
+    "pythonTestExplorer.testFramework": "pytest",
+    "isort.args": ["--profile", "black"]
 }
