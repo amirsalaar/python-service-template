@@ -1,0 +1,7 @@
+# Global uv configuration for this project
+
+# Use the latest compatible versions when adding dependencies
+resolution = "highest"
+
+# Show more verbose output for operations
+preview = false

@@ -1,21 +1,16 @@
-FROM python:3.10-slim AS base
+FROM python:3.13-slim AS base
+
+# Install uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
 
 COPY . /app
-
 WORKDIR /app
 
-# python dependencies
-RUN python3 -m pip install --upgrade pip \
-    && pip3 install poetry --no-cache-dir
+# Copy uv configuration and dependency files
+COPY pyproject.toml uv.lock ./
 
-ADD poetry.lock pyproject.toml /app/
-
-# 1. Disable virtualenv creation with poetry
-# 2. Install poetry deps
-RUN poetry config virtualenvs.create false \
-    && poetry install $(test "$YOUR_ENV" == production \
-    && echo "--no-dev") --no-interaction --no-ansi
-
+# Install dependencies
+RUN uv sync --frozen --no-cache
 
 EXPOSE 6000
 

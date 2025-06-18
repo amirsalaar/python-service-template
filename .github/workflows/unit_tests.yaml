@@ -18,6 +18,6 @@ jobs:
       - uses: ./.github/workflows/actions/install-composite
       - name: Run pytest
         run: |
-          changed_python_files=$(git diff --diff-filter=d --name-only origin/$TARGET_COMMIT..HEAD | grep "\.py$" | grep -vE "config|examples|fabfile|manage.py|migrations|venv|build" | tr '\n' ' ' || true)
-          if [ -n "$changed_python_files" ];then poetry install --no-interaction;else exit 0; fi
-          poetry run pytest -vv --cov="src" .
+          changed_python_files=$(git diff --diff-filter=d --name-only origin/${{ github.base_ref }}..HEAD | grep "\.py$" | grep -vE "config|examples|fabfile|manage.py|migrations|venv|build" | tr '\n' ' ' || true)
+           if [ -n "$changed_python_files" ];then uv sync --group dev;else exit 0; fi
+           uv run --group dev pytest -vv --cov="src" .

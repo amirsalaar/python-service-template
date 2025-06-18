@@ -15,10 +15,9 @@ standard structure for Python projects, including a `pyproject.toml` file, a and
 
 # How To Use This Template Repository
 
-To get started to use this template for your project, you can simply click on __"Use this template"__ button on the GitHub UI and then select __"Create new repository"__.
+To get started using this template for your project, you can simply click on **"Use this template"** button on the GitHub UI and then select **"Create new repository"**.
 Then, follow the prompt to create a new repository off of this template.
 
-🚨 For any feature requests and bugs, please create an issue on GitHub repository of the template.
 
 # Quick Start
 
@@ -27,11 +26,11 @@ After creating a new repository off of this template, you can follow the steps b
 1. If you prefer another Python version, `.python-version` file can be updated to reflect the preferred Python version.
     Otherwise, you can run `pyenv local | xargs pyenv install` to install the recommended version mentioned in `.python-version`
     (see [Python Version Management](#python-version-management) section for more information).
-2. Create and activate a virtual environment with `poetry shell` (see [Package Management](#package-management) section for more information).
-3. After creating and activating your virtual environment, you can install the dependencies with `poetry install`.
+2. Create and activate a virtual environment with `uv venv` and `source .venv/bin/activate` (see [Package Management](#package-management) section for more information).
+3. After creating and activating your virtual environment, you can install the dependencies with `uv sync`.
 4. Install the pre-commit hooks with `pre-commit install` (see [Pre-commit Hooks](#pre-commit-hooks) section for more information).
 5. Update the `README.md` file with your new project information.
-6. Update the `[tool.poetry]` section of `pyproject.toml` file with your new project information.
+6. Update the `[project]` section of `pyproject.toml` file with your new project information.
 
 # Python Version Management
 
@@ -39,13 +38,13 @@ We use `pyenv` to manage Python versions. This is a tool that allows you to inst
 
 # Package Management
 
-We are using `poetry` to manage our Python packages. This is a new package manager that is gaining popularity in the Python community. It is similar to `pipenv` and `pip` in that it manages dependencies and virtual environments. It is also similar to `npm` in that it uses a `pyproject.toml` file to manage dependencies. The main difference is that `poetry` is more strict about the versions of dependencies that are installed. This is a good thing, as it helps to ensure that the code is reproducible.
+We use `uv` to manage Python packages and virtual environments. `uv` is a fast Python package installer and resolver written in Rust, designed to be a drop-in replacement for `pip` and `pip-tools`. It provides excellent performance and reliable dependency resolution.
 
-We will also recommend using `poetry` to manage and initialized your virtual envs since it provides a quite simple interface to initialize and and activate your virtual envs.
+`uv` creates virtual environments within the project directory by default when using `uv venv`, which helps keep dependencies isolated and project-specific.
 
 ## Project Python Version
 
-As of now, we have not migrated our boxes and default projects to use Python versions greater than 3.9. So this project will use the latest version of Python 3.9.15 until we have migrated our boxes and default projects to use Python 3.10 or later versions.
+As of now, we have updated this project to use Python 3.13.3, providing access to the latest Python features and improvements.
 
 Assuming that you have `pyenv` installed, you can install the latest version of Python recommended in `.python-version` file, by running the following command:
 
@@ -53,43 +52,74 @@ Assuming that you have `pyenv` installed, you can install the latest version of 
 pyenv local | xargs pyenv install # reads the python version from .python-version file and pipe it to `pyenv install`
 ```
 
-## `poetry` Configuration
+## Create A Virtual Environment With `uv`
 
-`poetry` configuration file is stored at:
-
-- For macOS, this config file is stored at `~/Library/Preferences/pypoetry/config.toml`.
-- For Linux, this config file is stored at `~/.config/pypoetry/config.toml`.
-
-In order for `poetry` to create virtual environments within the project with your preferred Python version, add the following configuration to your poetry `config.toml` file:
-
-```toml
-[virtualenvs]
-in-project = true # creates the virtualenv in the project directory
-prefer-active-python = true # uses the active python version
-```
-
-> For further information on the usage of `poetry` configuration, you can run `poetry config --help`.
-
-## Create A Virtual Environment With `poetry`
-
-- To create and activate `poetry` virtual environment, run:
+- To create a virtual environment with `uv`, run:
 
 ```bash
-poetry shell
+uv venv
 ```
 
-- Then, to install `poetry` packages in the virtual environment created by `poetry` from the last step, run:
+- To activate the virtual environment, run:
 
 ```bash
-poetry install
+source .venv/bin/activate
 ```
 
-> If `poetry` got stuck at installation of a package, you may try running `poetry cache clear --all .`
-
-- You can check out and verify the information of your virtual environment created by `poetry`, run the following command:
+- Then, to install packages in the virtual environment from the `pyproject.toml` file, run:
 
 ```bash
-poetry env info
+uv sync
+```
+
+- To install specific dependency groups (e.g., development dependencies), run:
+
+```bash
+uv sync --group dev
+```
+
+- To add a new dependency, use:
+
+```bash
+uv add package-name
+```
+
+- To add a development dependency, use:
+
+```bash
+uv add --group dev package-name
+```
+
+- You can check your virtual environment information by running:
+
+```bash
+uv info
+```
+
+## Additional uv Features
+
+- To update the lock file with the latest dependencies:
+
+```bash
+uv lock --upgrade
+```
+
+- To run a command in the virtual environment without activating it:
+
+```bash
+uv run python your_script.py
+```
+
+- To run a specific dependency group:
+
+```bash
+uv run --group dev pytest
+```
+
+- To remove a dependency:
+
+```bash
+uv remove package-name
 ```
 
 # Pre-commit Hooks
@@ -99,6 +129,8 @@ It also allows us to easily share our pre-commit hooks across projects.
 The hooks are defined in the `.pre-commit-config.yaml` file and the hooks are run automatically when you commit your code.
 
 ## Install Pre-commit Hooks
+
+After activating your virtual environment with `source .venv/bin/activate`, you can install the pre-commit hooks by running the following command:
 
 ```bash
 pre-commit install
