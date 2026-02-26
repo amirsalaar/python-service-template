@@ -1,59 +1,35 @@
 name: Code Validation
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
-
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
 
 jobs:
-  black-check:
-    env:
-      TARGET_COMMIT: ${{ github.base_ref }}
+  ruff-check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/workflows/actions/setup-composite
-      - name: Install and run black
+        with:
+          fetch-depth: 0
+      - name: Setup Python and uv
+        uses: ./.github/workflows/actions/setup-composite
+      - name: Install and run ruff
         run: |
           files=$(git diff --diff-filter=d --name-only origin/${{ github.base_ref }}..HEAD | grep "\.py$" | grep -vE "config|examples|fabfile|manage.py|migrations|venv|build" | tr '\n' ' ' || true)
-          if [ -n "$files" ];then uv sync --group black;else exit 0; fi
-          uv run --group black black --check -v --config ${{ github.workspace }}/pyproject.toml $files
-  isort-check:
-    env:
-      TARGET_COMMIT: ${{ github.base_ref }}
+          if [ -n "$files" ];then uv sync --group ruff;else exit 0; fi
+          uv run --group ruff ruff format --check $files
+          uv run --group ruff ruff check $files
+  mypy-check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/workflows/actions/setup-composite
-      - name: Install and run isort
+        with:
+          fetch-depth: 0
+      - name: Setup Python and uv
+        uses: ./.github/workflows/actions/setup-composite
+      - name: Install and run mypy
         run: |
-          files=$(git diff --diff-filter=d --name-only origin/$TARGET_COMMIT..HEAD | grep "\.py$" | grep -vE "config|examples|fabfile|manage.py|migrations|venv|build" | tr '\n' ' ' || true)
-          if [ -n "$files" ];then uv sync --group isort;else exit 0; fi
-          uv run --group isort isort -v --check --profile black --settings-path ${{ github.workspace }}/pyproject.toml --atomic $files
-  pylint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/workflows/actions/setup-composite
-      - name: Install poetry and pylint and run pylint
-        run: |
-          changed_python_files=$(git diff --diff-filter=d --name-only origin/$TARGET_COMMIT..HEAD | grep "\.py$" | grep -vE "config|examples|fabfile|manage.py|migrations|venv|build" | tr '\n' ' ' || true)
-          if [ -n "$changed_python_files" ];then uv sync --group pylint;else exit 0; fi
-          uv run --group pylint pylint .
-  mypy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/workflows/actions/setup-composite
-      - name: Install poetry and mypy and run mypy
-        run: |
-          changed_python_files=$(git diff --diff-filter=d --name-only origin/$TARGET_COMMIT..HEAD | grep "\.py$" | grep -vE "config|examples|fabfile|manage.py|migrations|venv|build" | tr '\n' ' ' || true)
+          changed_python_files=$(git diff --diff-filter=d --name-only origin/${{ github.base_ref }}..HEAD | grep "\.py$" | grep -vE "config|examples|fabfile|manage.py|migrations|venv|build" | tr '\n' ' ' || true)
           if [ -n "$changed_python_files" ];then uv sync --group mypy;else exit 0; fi
-          uv run --group mypy mypy --config-file pyproject.toml .
+          uv run --group mypy mypy .

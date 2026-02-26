@@ -9,9 +9,7 @@ The following extensions are recommended for this project:
 
 - [Python](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
 - [Pylance](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance)
-- [Black Formatter](https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter)
-- [isort](https://marketplace.visualstudio.com/items?itemName=ms-python.isort)
+- [Ruff](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
 - [Python Test Explorer for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=LittleFoxTeam.vscode-python-test-adapter)
-- [Pylint](https://marketplace.visualstudio.com/items?itemName=ms-python.pylint)
 - [autoDocstring - Python Docstring Generator](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring)
 - [Code Spell Checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)

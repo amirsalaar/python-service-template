@@ -20,25 +20,14 @@ repos:
 
   - repo: local
     hooks:
-      - id: pylint
-        name: pylint
-        entry: uv run --group pylint pylint
+      - id: ruff-format
+        name: ruff format
+        entry: uv run --group ruff ruff format --check
         language: system
         types: [python]
-        args: [
-            "-rn", # Only display messages
-            "-sn", # Don't display the score
-            "--rcfile=.pylintrc", # Link to your config file
-          ]
-      - id: black
-        name: black
-        entry: uv run --group black black
-        language: system
-        types: [python]
-        args: ["--check", --config=pyproject.toml]
-      - id: isort
-        name: isort
-        entry: uv run --group isort isort
+      - id: ruff-check
+        name: ruff check
+        entry: uv run --group ruff ruff check
         language: system
         types: [python]
       - id: mypy
